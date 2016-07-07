@@ -1,8 +1,16 @@
 package guava;
 
-import com.google.common.base.CaseFormat;
-import com.google.common.base.CharMatcher;
+import com.google.common.base.*;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Range;
+import org.apache.commons.lang.math.IntRange;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by xiaoxuan.jin on 2016/5/3.
@@ -32,5 +40,49 @@ public class CharMatcherTest {
         System.out.println(to);
         int i = CharMatcher.is('_').indexIn("accountId");
         int j = CharMatcher.is('_').indexIn("account_id_jfef");
+        //String s1 = CharMatcher.("@qunar.com").replaceFrom("xiaoxuan.jin@qunar.com", "");
+
+        long elapsed = 5019;
+        long seconds = elapsed / 1000;
+        long milliseconds = elapsed % 1000;
+        System.out.println("seconds: " + seconds);
+        System.out.println("milliseconds: " + milliseconds);
+
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        //Thread.sleep(1000 * 3 + 500);
+        formatTime("first: ", stopwatch.stop().elapsed(TimeUnit.MILLISECONDS));
+        stopwatch.reset().start();
+       // Thread.sleep(1000 * 5 + 500);
+        formatTime("second: ", stopwatch.stop().elapsed(TimeUnit.MILLISECONDS));
+
+        String monthParam = "201601";
+        String pp = CharMatcher.is('-').replaceFrom(monthParam, "");
+        System.out.println(pp);
+        List<String> list = Lists.newArrayList();
+        list.add("a");
+        list.add("b");
+        list.add("c");
+
+        Iterable<Integer> a1 = Iterables.filter(Lists.transform(list, new Function<String, Integer>() {
+            public Integer apply(String input) {
+                if (input.equals("a")) {
+                    return 1;
+                }
+                return null;
+            }
+        }), Predicates.<Integer>notNull());
+        System.out.println("a的集合：" + a1);
+
+
+        IntRange intRange = new IntRange(0, 0);
+        System.out.println(intRange.getMinimumInteger());
+        System.out.println(intRange.getMaximumInteger());
+    }
+
+
+    private void formatTime(String action, long elapsed) {
+        long seconds = elapsed / 1000;
+        long milliseconds = elapsed % 1000;
+        System.out.println(action + "耗时: " + seconds + " 秒， " + milliseconds + " 毫秒 {}");
     }
 }
