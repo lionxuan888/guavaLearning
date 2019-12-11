@@ -7,7 +7,9 @@ import com.google.common.util.concurrent.Uninterruptibles;
 import lock.Counter;
 import org.junit.Test;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by xiaoxuan.jin on 2016/4/18.
@@ -16,8 +18,32 @@ public class TestLock {
 
     @org.junit.Test
     public void testLock() throws Exception {
+
         System.out.println("hello world");
 
+        final ReentrantLock reentrantLock = new ReentrantLock(false);
+        CountDownLatch countDownLatch = new CountDownLatch(10);
+        for (int i = 0; i < 3; i++) {
+            Thread threadA = getThread(reentrantLock, countDownLatch);
+            threadA.start();
+        }
+        countDownLatch.await();
+        System.out.println("任务全部执行完成......");
+    }
+
+    private Thread getThread(final ReentrantLock reentrantLock, final CountDownLatch countDownLatch) {
+        return new Thread(new Runnable() {
+            public void run() {
+                Thread thread = Thread.currentThread();
+                System.out.println("进入线程" + thread.getName());
+                reentrantLock.lock();
+                System.out.println("线程" + thread.getName() + "获取到锁.");
+                Uninterruptibles.sleepUninterruptibly(20000, TimeUnit.SECONDS);
+                System.out.println("线程" + thread.getName() + "任务执行完成.");
+                reentrantLock.unlock();
+                countDownLatch.countDown();
+            }
+        });
     }
 
 
