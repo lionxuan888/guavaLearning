@@ -3,12 +3,8 @@ package guava;
 import com.google.common.base.*;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Range;
-import org.apache.commons.lang.math.IntRange;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -72,11 +68,11 @@ public class CharMatcherTest {
             }
         }), Predicates.<Integer>notNull());
         System.out.println("a的集合：" + a1);
-
-
-        IntRange intRange = new IntRange(0, 0);
-        System.out.println(intRange.getMinimumInteger());
-        System.out.println(intRange.getMaximumInteger());
+//
+//
+//        IntRange intRange = new IntRange(0, 0);
+//        System.out.println(intRange.getMinimumInteger());
+//        System.out.println(intRange.getMaximumInteger());
     }
 
 
